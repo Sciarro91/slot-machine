@@ -1,0 +1,9 @@
+# Implementazioni Possibili
+
+- Gestione del Credito
+- Gestione del Log Utente
+- Gestione del controllo rapporto Incassi / PayOut
+
+
+# ToDo
+- Struttura classi

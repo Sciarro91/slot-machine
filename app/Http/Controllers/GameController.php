@@ -18,7 +18,7 @@ class GameController extends BaseController
         $rullo = [rand(0,9),rand(0,9),rand(0,9)];
 
         return ['rullo'=>$rullo,
-                'hoVinto'=>self::hoVinto($rullo)
+                'hai_vinto'=> self::hoVinto($rullo)
             ];
     }
 
@@ -53,7 +53,7 @@ class GameController extends BaseController
             if( preg_match('/'.implode('', $cmb_vincente['cmb']).'/', implode('', $rullo) ) == 1 ) return $cmb_vincente;
         }
 
-
+        return false
     }
 
     public function itera(){
@@ -61,7 +61,7 @@ class GameController extends BaseController
 
         for ($i=0; $i < 1000; $i++) { 
            $giocata = self::gioca();
-           if($giocata['hoVinto']) $vincite[] = $giocata;
+           if($giocata['hai_vinto']) $vincite[] = $giocata;
         }
 
         return $vincite;
