@@ -7,4 +7,4 @@
 
 
 # ToDo
-- Struttura classi
+- ok - Struttura classi

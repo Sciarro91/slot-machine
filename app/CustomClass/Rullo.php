@@ -3,6 +3,7 @@
 namespace App\CustomClass;
 
 use App\CustomClass\CombinazioniVincenti as CombinazioniVincenti; 
+use App\CustomClass\LifeSpan; 
 
 
 class Rullo {
@@ -10,16 +11,30 @@ class Rullo {
 	private $cifre;
 	private	$combinazionivincenti;
 
-	public function __construct(){
+	public function __construct(LifeSpan $life_span){
 
-		$this->combinazionivincenti = new CombinazioniVincenti;
-		$this->cifre = [rand(0,9),rand(0,9),rand(0,9)];
+		if($life_span->get_credito() > 0 ){
+
+			$this->combinazionivincenti = new CombinazioniVincenti;
+			$this->cifre = [rand(0,9),rand(0,9),rand(0,9)];
+
+		} else {
+			return false;
+		}
 
 	}
 
-	public function hoVinto(){
+	public function hoVinto(LifeSpan $life_span){
 
-		return $this->combinazionivincenti->controllaVincita($this->cifre);
+		$hoVinto = $this->combinazionivincenti->controllaVincita($this->cifre);
+
+		if( $hoVinto ){
+
+			$life_span->add_credito($hoVinto['eur']);
+
+		} 
+
+		return $hoVinto;
 
     }
 
