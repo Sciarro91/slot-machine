@@ -3,6 +3,7 @@
 - Gestione del Credito
 - Gestione del Log Utente
 - Gestione del controllo rapporto Incassi / PayOut
+- Gestione degli stop su singolo rullo (tengo il numero/i per un altro giro)
 
 
 # ToDo

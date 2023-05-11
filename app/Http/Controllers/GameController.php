@@ -39,13 +39,13 @@ class GameController extends BaseController
             [ 'cmb' => [9,9,'[0-9]'],       'eur' => 9*2  ],       // 2 Nove
             [ 'cmb' => [9,'[0-9]',9],       'eur' => 9*2  ],       // 2 Nove
             [ 'cmb' => ['[0-9]',9,9],       'eur' => 9*2  ],       // 2 Nove
-            [ 'cmb' => ['[0-9]','[0-9]',9], 'eur' => 9    ],       // 1 Nove                    
-            [ 'cmb' => ['[0-9]',9,'[0-9]'], 'eur' => 9    ],       // 1 Nove
-            [ 'cmb' => [9,'[0-9]','[0-9]'], 'eur' => 9    ],       // 1 Nove
             [ 'cmb' => [8,8,'[0-9]'],       'eur' => 8    ],       // 2 Otto
             [ 'cmb' => [8,'[0-9]',8],       'eur' => 8    ],       // 2 Otto
             [ 'cmb' => ['[0-9]',8,8],       'eur' => 8    ],       // 2 Otto
-            [ 'cmb' => [8,8,'[0-9]'],       'eur' => 8    ]        // 2 Otto
+            [ 'cmb' => [8,8,'[0-9]'],       'eur' => 8    ],       // 2 Otto
+            [ 'cmb' => ['[0-9]','[0-9]',9], 'eur' => 9    ],       // 1 Nove                    
+            [ 'cmb' => ['[0-9]',9,'[0-9]'], 'eur' => 9    ],       // 1 Nove
+            [ 'cmb' => [9,'[0-9]','[0-9]'], 'eur' => 9    ]        // 1 Nove
         ];
 
         
@@ -53,7 +53,7 @@ class GameController extends BaseController
             if( preg_match('/'.implode('', $cmb_vincente['cmb']).'/', implode('', $rullo) ) == 1 ) return $cmb_vincente;
         }
 
-        return false
+        return false;
     }
 
     public function itera(){
