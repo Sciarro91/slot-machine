@@ -2,56 +2,70 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Foundation\Validation\ValidatesRequests;
+//use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+//use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 
 use App\CustomClass\Rullo as Rullo; 
 use App\CustomClass\LifeSpan as LifeSpan; 
 
+
 class GameController extends BaseController
 {
-    use AuthorizesRequests, ValidatesRequests;
+    //use AuthorizesRequests, ValidatesRequests;
 
     public function gioca(Request $request){
 
+        
         $life_span = new LifeSpan($request);
-        $giocata = new Rullo($life_span);
 
-        if( $giocata ){
+        $giocata = new Rullo($life_span);
+        
+        if( $giocata->posso_giocare()  ){
 
             $vincita = $giocata->hoVinto($life_span);
 
             $response = [
                 'rullo'=>$giocata->mostraCifre(),
                 'hai_vinto'=> $vincita,
-                'credito' => $life_span->get_credito()
+                'credito' => $life_span->get_credito(),
+                'msg' => ''
             ];
 
         } else {
 
             $response = [
-                'rullo'=>null,
-                'hai_vinto'=> null
+                'rullo'=>$giocata->mostraCifre(),
+                'hai_vinto'=> null,
+                'credito' => $life_span->get_credito(),
+                'msg' => $life_span->time_not_expired() ? 'Credito Esaurito! Riprova a giocare su slot-machine.net' : 'Tempo Scaduto! Continua a giocare su slot-machine.net'
             ];
 
         }
 
-        return $life_span->getBack($request,$response);
+        //Log::debug( $request->session()->all() );
+
+        return $life_span->getBack($response);
 
     }
 
 
-    public function itera(){
+    public function itera(Request $request){
 
+        $vincite = array();
 
-        for ($i=0; $i < 1000; $i++) {
-           $giocata = self::gioca();
-           if($giocata['hai_vinto']) $vincite[] = $giocata;
+        for ($i=0; $i < 100; $i++) {
+            $giocata = self::gioca($request);
+            if($giocata->original['hai_vinto']){
+                $vincite[] = $giocata->original['hai_vinto']['eur'];
+            }
         }
 
         return $vincite;
     }
+
 }
