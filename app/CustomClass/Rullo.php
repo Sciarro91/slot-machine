@@ -5,16 +5,19 @@ namespace App\CustomClass;
 use App\CustomClass\CombinazioniVincenti as CombinazioniVincenti; 
 use App\CustomClass\LifeSpan; 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 
 class Rullo {
 
 	private $cifre;  
 	private	$combinazionivincenti;
-	private	$eur_giocata = 2;        // costo ogni giro di rullo
+	private	$eur_giocata;            // costo ogni giro di rullo
 	private	$posso_giocare = false;  // flag risultante da insieme di condizioni per la giocata ( credito e tempo non scaduto)
 
 	public function __construct(LifeSpan $life_span){
+
+		$this->eur_giocata = config('constants.slot.cost_each_play');
 
 		if( ($life_span->get_credito() >= $this->eur_giocata) && $life_span->time_not_expired() ){
 			$this->combinazionivincenti = new CombinazioniVincenti;
@@ -23,7 +26,6 @@ class Rullo {
 			$this->posso_giocare = true;
 
 		} else {
-			$this->combinazionivincenti = new CombinazioniVincenti;
 			$this->cifre = [0,0,0];
 			$this->posso_giocare = false;
 		}
