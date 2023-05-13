@@ -49,18 +49,36 @@ class GameController extends BaseController
     }
 
 
-    public function itera(Request $request){
+    public function simula(Request $request){
 
         $vincite = array();
+        $incassi = 0;
+        $pagamenti = 0;
 
-        for ($i=0; $i < 100; $i++) {
+        for ($i=0; $i < 10000; $i++) {
+
             $giocata = self::gioca($request);
-            if($giocata->original['hai_vinto']){
-                $vincite[] = $giocata->original['hai_vinto']['eur'];
+            $incassi += config('constants.slot.cost_each_play');
+
+            if($giocata['hai_vinto']){
+
+                $vincita = $giocata['hai_vinto'];
+                $pagamenti += $vincita['eur'];
+
+                $vincite[] = $vincita;
             }
         }
 
-        return $vincite;
+        $payout = $pagamenti / $incassi;
+
+        return 
+
+            array( 
+                'payout'=> $payout,
+                'incassi'=>$incassi, 
+                'pagamenti'=>$pagamenti, 
+                'vincite'=>$vincite
+            );
     }
 
 }

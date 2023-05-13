@@ -16,7 +16,7 @@ use App\Http\Controllers\GameController;
 */
 
 Route::get('/gioca', [GameController::class, 'gioca']);
-Route::get('/itera', [GameController::class, 'itera']);
+Route::post('/simula', [GameController::class, 'simula']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

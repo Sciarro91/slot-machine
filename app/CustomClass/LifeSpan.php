@@ -14,7 +14,11 @@ class LifeSpan {
 	private $req;  // tengo la request per comodità
 
 	public function __construct(Request $request){
-		$this->trial_coins = config('constants.user.initial_credit');
+
+		$this->trial_coins = 
+			$request->TKN_SIMULATOR == env('TKN_SIMULATOR') ? 
+				config('constants.admin.initial_credit') : config('constants.user.initial_credit');
+
 		$this->req = $request;
 
 		if( $request->session()->has('user') ){ // controllo presenza cookie utente
@@ -43,7 +47,11 @@ class LifeSpan {
 	}
 
 	public function time_not_expired(){
-		return( ((time() - $this->time_user) / 60) <= config('constants.user.expire_time') ); // 30 sec
+
+		$time = $this->req->TKN_SIMULATOR == env('TKN_SIMULATOR') ? config('constants.admin.expire_time') : config('constants.user.expire_time');
+		Log::debug( $time );
+		return ((time() - $this->time_user) / 60) <= $time; // 30 sec
+
 	}
 
 	
