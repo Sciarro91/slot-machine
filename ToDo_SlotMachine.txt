@@ -2,7 +2,7 @@
 
 - ok - Gestione del Credito
 - no - Gestione del Log Utente
-- Gestione del controllo rapporto Incassi / PayOut
+- ok - Gestione del controllo rapporto Incassi / PayOut
 - Gestione degli stop su singolo rullo (tengo il numero/i per un altro giro)
 
 
