@@ -48,7 +48,7 @@ Hai 30 secondi di tempo per far girare i rulli e 6 crediti iniziali.
 Clona da git
 
 ```bash
-  git clone https://github.com/Sciarro91/slot-machine
+  git clone https://github.com/Sciarro91/slot-machine.git
 ```
 
 Vai alla cartella progetto appena clonata
