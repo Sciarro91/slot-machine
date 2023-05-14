@@ -20,29 +20,31 @@ class Rullo {
 		$this->eur_giocata = config('constants.slot.cost_each_play');
 
 		if( ($life_span->get_credito() >= $this->eur_giocata) && $life_span->time_not_expired() ){
+
 			$this->combinazionivincenti = new CombinazioniVincenti;
 			$life_span->subtract_credito($this->eur_giocata);
 			$this->cifre = [rand(0,9),rand(0,9),rand(0,9)];
 			$this->posso_giocare = true;
 
 		} else {
+			
 			$this->cifre = [0,0,0];
-			$this->posso_giocare = false;
+
 		}
 
 	}
 
-	public function hoVinto(LifeSpan $life_span){
+	public function ho_vinto(LifeSpan $life_span){
 
-		$hoVinto = $this->combinazionivincenti->controllaVincita($this->cifre);
+		$ho_vinto = $this->combinazionivincenti->controlla_vincita($this->cifre);
 
-		if( $hoVinto ) $life_span->add_credito($hoVinto['eur']); 
+		if( $ho_vinto ) $life_span->add_credito($ho_vinto['eur']); 
 
-		return $hoVinto;
+		return $ho_vinto;
 
     }
 
-    public function mostraCifre(){
+    public function mostra_cifre(){
     	return $this->cifre;
     }
 

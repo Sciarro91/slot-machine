@@ -31,7 +31,7 @@ class CombinazioniVincenti {
             ]; 
 
 
-    public function controllaVincita($rullo){
+    public function controlla_vincita($rullo){
 
         foreach (self::$combinazionivincenti as $combinazionevincente) {
             if( preg_match('/'.implode('', $combinazionevincente['cmb']).'/', implode('', $rullo ) ) == 1 ) return $combinazionevincente;

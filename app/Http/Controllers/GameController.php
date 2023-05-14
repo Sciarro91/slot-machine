@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
+use Exception;
 
 use App\CustomClass\Rullo as Rullo; 
 use App\CustomClass\LifeSpan as LifeSpan; 
@@ -19,15 +20,14 @@ class GameController extends BaseController
 
         
         $life_span = new LifeSpan($request);
-
         $giocata = new Rullo($life_span);
         
         if( $giocata->posso_giocare() ){
 
-            $vincita = $giocata->hoVinto($life_span);
+            $vincita = $giocata->ho_vinto($life_span);
 
             $response = [
-                'rullo'=>$giocata->mostraCifre(),
+                'rullo'=>$giocata->mostra_cifre(),
                 'hai_vinto'=> $vincita,
                 'credito' => $life_span->get_credito(),
                 'msg' => $vincita ? 'Bravo!!!' : ''
@@ -36,7 +36,7 @@ class GameController extends BaseController
         } else {
 
             $response = [
-                'rullo'=>$giocata->mostraCifre(),
+                'rullo'=>$giocata->mostra_cifre(),
                 'hai_vinto'=> null,
                 'credito' => $life_span->get_credito(),
                 'msg' => $life_span->time_not_expired() ? 'Credito non sufficiente! Riprova a giocare su slot-machine.net' : 'Tempo Scaduto! Continua a giocare su slot-machine.net'
@@ -55,28 +55,46 @@ class GameController extends BaseController
         $incassi = 0;
         $pagamenti = 0;
 
-        for ($i=0; $i < 10000; $i++) {
+        $iterations = $request->has('iterations') && $request->iterations>0 ? min($request->iterations,10000) : 10000;
 
-            $giocata = self::gioca($request);
-            $incassi += config('constants.slot.cost_each_play');
+        try {
 
-            if($giocata['hai_vinto']){
+            for ($i=0; $i < $iterations; $i++) {
 
-                $vincita = $giocata['hai_vinto'];
-                $pagamenti += $vincita['eur'];
+                $giocata = self::gioca($request);
+                $incassi += config('constants.slot.cost_each_play');
 
-                $vincite[] = $vincita;
+                if($giocata['hai_vinto']){
+
+                    $vincita = $giocata['hai_vinto'];
+                    $pagamenti += $vincita['eur'];
+
+                    $vincite[] = $vincita;
+                }
             }
+
+            $payout = $pagamenti / $incassi;
+
+        } catch (\Exception $e) {
+            
+            Log::debug($e);
+
+            return 
+                array( 
+                    'payout'=> '',
+                    'incassi'=>'', 
+                    'pagamenti'=>'', 
+                    'msg'=>'Qualcosa è andato storto', 
+                    'vincite'=>''
+                );
         }
 
-        $payout = $pagamenti / $incassi;
-
         return 
-
             array( 
                 'payout'=> $payout,
                 'incassi'=>$incassi, 
                 'pagamenti'=>$pagamenti, 
+                'msg'=>'', 
                 'vincite'=>$vincite
             );
     }

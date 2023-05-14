@@ -49,7 +49,6 @@ class LifeSpan {
 	public function time_not_expired(){
 
 		$time = $this->req->TKN_SIMULATOR == env('TKN_SIMULATOR') ? config('constants.admin.expire_time') : config('constants.user.expire_time');
-		Log::debug( $time );
 		return ((time() - $this->time_user) / 60) <= $time; // 30 sec
 
 	}
