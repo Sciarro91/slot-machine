@@ -1,3 +1,85 @@
+# Slot-Machine.net
+
+Slot-Machine.net è una demo di una slot virtuale. (solo back-end)
+
+Non richiede registrazione ed è adatta per far provare velocemente il prodotto.
+
+Potrebbe essere inserita a supporto di un front in stile "banner pubblicitario" per far conoscere il gioco.
+
+# Si vince con
+- 3 numeri uguali
+- 2 Nove
+- 2 Otto
+- 1 Nove  
+
+Hai 30 secondi di tempo per far girare i rulli e 6 crediti iniziali.
+
+## API 
+
+#### Per far girare i rulli
+
+```http 
+  GET http - */api/gioca
+```
+
+#### Per controllare il payout della slot (funzione amministratore)
+```http
+  POST http - */api/simula
+```
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `TKN_SIMULATOR` | `string` | Token per utilizzare la funzione amministratore - 4izmTRACN4WnfuLLJJvrItrBYDf55pROqxLGgN2CLuBI33V8qzMBhgY76QXzCTCo |
+| `iterations` | `int` | numero di rullate che si vogliono simulare (max 10.000) |
+
+
+## Requisiti
+
+```bash
+  - PHP ^8.1
+  - Composer
+
+  (Progetto con base Laravel)
+```
+
+
+## Prova in locale
+
+Clona da git
+
+```bash
+  git clone https://github.com/Sciarro91/slot-machine
+```
+
+Vai alla cartella progetto appena clonata
+
+```bash
+  cd slot-machine
+```
+
+Installa dipendenze composer.json
+
+```bash
+  composer install
+```
+
+Installa dipendenze package.json
+
+```bash
+  npm install
+```
+
+Avvia server locale
+
+```bash
+  php artisan serve
+```
+
+
+
+
+
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
